@@ -132,7 +132,7 @@ if __name__ == '__main__':
 	console = serial.Serial(port)
 	console.read(console.inWaiting())
 
-	commands = {}	# Add commands here to use a list instead of a config file
+	commands = []	# Add commands here to use a list instead of a config file
 
 	if len(commands) == 0:
 		if os.path.exists("config.txt") == True:

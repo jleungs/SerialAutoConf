@@ -1,4 +1,7 @@
-import os, serial, glob, sys
+import glob
+import os
+import serial
+import sys
 from time import sleep
 from serial import SerialException
 
@@ -7,7 +10,6 @@ def porttest():
 		p = ['COM%s' % i for i in range(0, 256)]
 	elif os.name == 'posix':
 		p = glob.glob('/dev/tty[A-Za-z]*')
-
 	for port in p:
 		try:
 			serial.Serial(port)
@@ -36,7 +38,6 @@ def timer(c):
 			elif time == 20:	# If not [OK] in the response after 10 sec, program will exit
 				print("Error in 'write memory'")
 				exit()
-
 	print(c.strip('\n'))
 
 def check(i):
@@ -45,11 +46,9 @@ def check(i):
 	if "[nr]" in str(i):
 		rplc = input(str(i).strip('\n')+": ")
 		i = str(i).replace("[nr]", rplc)
-
 	elif "[adr]" in str(i):
 		rplc = input(str(i).strip('\n')+": ")
 		i = str(i).replace("[adr]", rplc)
-
 	ien = i.encode()
 	ide = ien.decode()
 	console.write(ien)
@@ -57,10 +56,8 @@ def check(i):
 	a = console.read(console.inWaiting())
 	if "crypto key generate rsa" in ide:
 		timer(ide)
-					
 	elif ide == "wr mem\n" or ide == "write memory\n" or ide == "do wr mem\n":
 		timer(ide)
-
 	elif "Extended VLAN(s) not allowed in current VTP mode." in str(a):
 		console.write(b'end\n')
 		sleep(0.5)
@@ -71,15 +68,12 @@ def check(i):
 		console.write(b'vtp mode transparent\n')
 		sleep(0.5)
 		console.write(ien)
-
 	elif "\\n% " in str(a):
 		print("\nThe '{}' command failed..".format(str(ide).strip('\n'))
 			+"\nERROR:"+str(a.decode()).strip(str(i)))
 		exit()
-
 	elif "%" in str(a):
 		print(a.decode())
-
 	else:
 		print(ide.strip('\n'))
 
@@ -105,7 +99,6 @@ def firstcheck():
 				exit()
 			else:
 				print("Firmware version OK!")
-
 		if "WS-C2960X-24PS-L" in i:
 			sw = str(i)[5:6]
 			print("PoE switch found, choosing switch {}".format(sw))

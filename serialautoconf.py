@@ -1,7 +1,6 @@
 import glob
 import os
 import serial
-import sys
 from time import sleep
 from serial import SerialException
 
